@@ -140,7 +140,11 @@ var key = {
 	shift : 16,
 	ctrl : 17,
 	alt : 18,
-	cmd : 224
+	cmd : 224,
+	q: 81,
+	e: 69,
+	z: 90, 
+	c: 67
 };
 
 var prevTime = 0;
@@ -508,16 +512,31 @@ function updateInput() {
 		/* WALK */
 		var prevPlayerDirection = curPlayerDirection;
 
-		if ( input.isKeyDown( key.left ) || input.isKeyDown( key.a ) || input.swipeLeft() ) {
+		if ( input.isKeyDown( key.q)) {
+			curPlayerDirection = Direction.TopLeft;
+		}
+		else if (input.isKeyDown( key.e ) || input.swipeRight() ) {
+			curPlayerDirection = Direction.TopRight;
+		}
+		else if (input.isKeyDown( key.c ) || input.swipeRight() ) {
+			curPlayerDirection = Direction.BottomRight;
+		}
+		else if (input.isKeyDown( key.z ) || input.swipeRight() ) {
+			curPlayerDirection = Direction.BottomLeft;
+		}
+		else if (input.isKeyDown( key.e ) || input.swipeRight() ) {
+			curPlayerDirection = Direction.TopRight;
+		}
+		else if (input.isKeyDown( key.a ) || input.swipeLeft() ) {
 			curPlayerDirection = Direction.Left;
 		}
-		else if ( input.isKeyDown( key.right ) || input.isKeyDown( key.d ) || input.swipeRight() ) {
+		else if (input.isKeyDown( key.d ) || input.swipeRight() ) {
 			curPlayerDirection = Direction.Right;
 		}
-		else if ( input.isKeyDown( key.up ) || input.isKeyDown( key.w ) || input.swipeUp() ) {
+		else if (input.isKeyDown( key.w ) || input.swipeUp() ) {
 			curPlayerDirection = Direction.Up;
 		}
-		else if ( input.isKeyDown( key.down ) || input.isKeyDown( key.s ) || input.swipeDown() ) {
+		else if (input.isKeyDown( key.s ) || input.swipeDown() ) {
 			curPlayerDirection = Direction.Down;
 		}
 		else {
@@ -608,7 +627,11 @@ var Direction = {
 	Up : 0,
 	Down : 1,
 	Left : 2,
-	Right : 3
+	Right : 3,
+	TopRight: 4,
+	BottomRight: 5,
+	BottomLeft: 6,
+	TopLeft: 7
 };
 
 var curPlayerDirection = Direction.None;
@@ -814,7 +837,24 @@ function movePlayer(direction) {
 
 	var spr = null;
 
-	if ( curPlayerDirection == Direction.Left && !(spr = getSpriteLeft()) && !isWallLeft()) {
+	if ( curPlayerDirection == Direction.TopLeft && !(spr = getSpriteTopLeft()) && !isWallTopLeft()) {
+		player().x -= 1;
+		player().y -= 1;
+	}
+	else if ( curPlayerDirection == Direction.TopRight && !(spr = getSpriteTopRight()) && !isWallTopRight()) {
+		player().x += 1;
+		player().y -= 1;
+	}
+	else if ( curPlayerDirection == Direction.BottomLeft && !(spr = getSpriteBottomLeft()) && !isWallBottomLeft()) {
+		player().x -= 1;
+		player().y += 1;
+	}
+	else if ( curPlayerDirection == Direction.BottomRight && !(spr = getSpriteBottomRight()) && !isWallBottomRight()) {
+		player().x += 1;
+		player().y += 1;
+	}
+	
+	else if ( curPlayerDirection == Direction.Left && !(spr = getSpriteLeft()) && !isWallLeft()) {
 		player().x -= 1;
 		didPlayerMoveThisFrame = true;
 	}
@@ -942,6 +982,35 @@ function getSpriteUp() {
 
 function getSpriteDown() {
 	return getSpriteAt( player().x, player().y + 1 );
+}
+
+// NEW CODE 
+function getSpriteTopLeft() { 
+	return getSpriteAt( player().x - 1, player().y -1);
+}
+function getSpriteTopRight() { 
+	return getSpriteAt( player().x + 1, player().y -1);
+}
+function getSpriteBottomRight() { 
+	return getSpriteAt( player().x + 1, player().y +1);
+}
+function getSpriteBottomLeft() { 
+	return getSpriteAt( player().x - 1, player().y +1);
+}
+
+
+
+function isWallTopLeft() {
+	return ((player().x - 1 < 0) || (player().y - 1 < 0) || isWall( player().x - 1, player().y - 1))
+}
+function isWallTopRight() {
+	return ((player().x + 1 >= 16) || (player().y - 1 < 0) || isWall( player().x + 1, player().y - 1))
+}
+function isWallBottomLeft() {
+	return ((player().x - 1 < 0) || (player().y + 1 >= 16) || isWall( player().x - 1, player().y + 1))
+}
+function isWallBottomRight() {
+	return ((player().x + 1 >= 16) || (player().y + 1 >= 16) || isWall( player().x + 1, player().y + 1))
 }
 
 function isWallLeft() {
