@@ -64,7 +64,11 @@ var key = {
 	w : 87,
 	a : 65,
 	s : 83,
-	d : 68
+	d : 68,
+	q: 81,
+	e: 69,
+	z: 90, 
+	c: 67
 };
 
 var prevTime = 0;
@@ -232,34 +236,42 @@ function onkeydown(e) {
 
 		var spr = null;
 
-		if (( (e.keyCode == key.w && e.keyCode == key.d) || (e.keyCode == key.up && e.keyCode == key.right)) && !(spr = getSpriteTopRight()) && !isWallTopRight()) {
+		if ((e.keyCode == key.e) && !(spr = getSpriteTopRight()) && !isWallTopRight()) {
+			console.log('e');
 			player().x += 1;
 			player().y -= 1;
 		}
-		else if (( (e.keyCode == key.w && e.keyCode == key.a) || (e.keyCode == key.up && e.keyCode == key.left)) && !(spr = getSpriteTopLeft()) && !isWallTopLeft()) {
+		else if ( (e.keyCode == key.q) && !(spr = getSpriteTopLeft()) && !isWallTopLeft()) {
+			console.log('q');
 			player().x -= 1;
 			player().y -= 1;
 		}
-		else if ( (e.keyCode == key.left && e.keyCode == key.down|| e.keyCode == key.a && e.keyCode == key.s) && !(spr = getSpriteBottomLeft()) && !isWallBottomLeft()) {
+		else if ( (e.keyCode == key.z) && !(spr = getSpriteBottomLeft()) && !isWallBottomLeft()) {
+			console.log('z');
 			player().x -= 1;
 			player().y += 1;
 		}
-		else if ( (e.keyCode == key.right && e.keyCode == key.down || e.keyCode == key.d && e.keyCode == key.s) && !(spr = getSpriteBottomRight()) && !isWallBottomRight()) {
+		else if ( (e.keyCode == key.c) && !(spr = getSpriteBottomRight()) && !isWallBottomRight()) {
+			console.log('c');
 			player().x += 1;
 			player().y += 1;
 		}
 
 		// ALREADY EXISTING CODE
-		else if ( (e.keyCode == key.left || e.keyCode == key.a) && !(spr = getSpriteLeft()) && !isWallLeft()) {
+		else if ( ( e.keyCode == key.a) && !(spr = getSpriteLeft()) && !isWallLeft()) {
+			console.log("a")
 			player().x -= 1;
 		}
-		else if ( (e.keyCode == key.right || e.keyCode == key.d) && !(spr = getSpriteRight()) && !isWallRight()) {
+		else if ( ( e.keyCode == key.d) && !(spr = getSpriteRight()) && !isWallRight()) {
+			console.log("d")
 			player().x += 1;
 		}
-		else if ( (e.keyCode == key.up || e.keyCode == key.w) && !(spr = getSpriteUp()) && !isWallUp()) {
+		else if ( (e.keyCode == key.w) && !(spr = getSpriteUp()) && !isWallUp()) {
+			console.log("w")
 			player().y -= 1;
 		}
-		else if ( (e.keyCode == key.down || e.keyCode == key.s) && !(spr = getSpriteDown()) && !isWallDown()) {
+		else if ( (e.keyCode == key.s) && !(spr = getSpriteDown()) && !isWallDown()) {
+			console.log("s")
 			player().y += 1;
 		}
 
